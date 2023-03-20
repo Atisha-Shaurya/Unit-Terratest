@@ -21,23 +21,22 @@ steps:
 - script: ls
 - script: |
     cd aks-terraform
-    terraform init
+    cd test
+    go mod init TestTerraformAzureAKS
   displayName: init
 
 
 - script: |
     cd aks-terraform
-    terraform plan
-  displayName: plan
+    cd test
+    go mod tidy
+  displayName: Tidy
 
 
 - script: |
     cd aks-terraform
-    terraform apply -auto-approve
-  displayName: apply
+    cd test
+    go test -v -timeout 30m 
+  displayName: testing
 
 
-- script: |
-    cd aks-terraform
-    terraform destroy -auto-approve
-  displayName: destroy
